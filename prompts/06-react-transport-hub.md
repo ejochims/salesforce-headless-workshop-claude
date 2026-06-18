@@ -67,9 +67,9 @@ Build a clean React experience called "Acme Transport Hub" that reads live data 
 
 Before scaffolding, follow both of these as hard requirements:
 
-1. Activate the installed Salesforce UI bundle skills from forcedotcom/sf-skills (preflighted in Module 0): building-ui-bundle-app, generating-ui-bundle-metadata, using-ui-bundle-salesforce-data, building-ui-bundle-frontend, and deploying-ui-bundle. These cover general scaffolding, metadata shape, and deployment. If any are missing, install them with `npx skills add forcedotcom/sf-skills` before continuing.
+1. Use the installed Salesforce CLI `sf-skills` UI bundle workflows (preflighted in Module 1): building-ui-bundle-app, generating-ui-bundle-metadata, using-ui-bundle-salesforce-data, building-ui-bundle-frontend, and deploying-ui-bundle. These cover general scaffolding, metadata shape, and deployment. Verify with `npx skills list`; if any are missing, install with `npx skills add forcedotcom/sf-skills`.
 
-2. Fetch and follow the sf-multiframework skill at https://github.com/dylandersen/sf-multiframework/blob/main/SKILL.md along with its references/activation-checklist.md, references/project-structure.md, references/data-sdk.md, and references/ci-deploy.md. This skill is written specifically for the Multi-Framework React beta — its 11 non-negotiable rules and activation checklist take precedence over general UI bundle patterns where they conflict.
+2. Activate the locally installed `sf-multiframework` Claude Code skill (installed at `~/.claude/skills/sf-multiframework/` in Module 1). Read its `SKILL.md` and the four reference files it points to (`references/activation-checklist.md`, `references/project-structure.md`, `references/data-sdk.md`, `references/ci-deploy.md`). This skill is written specifically for the Multi-Framework React beta — its non-negotiable rules and activation checklist take precedence over general UI bundle patterns where they conflict. If `~/.claude/skills/sf-multiframework/SKILL.md` is missing, stop and run the Module 1 install command before continuing.
 
 Use a clean logistics brand: Salesforce blue (#0176D3) primary, a deeper blue (#1B5C9C) accent, and Inter / system-ui as the type stack. Keep it minimal and modern.
 
@@ -83,7 +83,7 @@ The app must include:
 Data integrity rules:
 - Every value rendered in the UI must come from a real Salesforce record at the time of render. No mock data, no JSON files, no CSV files, no hardcoded shipment names.
 - Use @salesforce/sdk-data with the GraphQL UI API as the data layer — that is the idiomatic path for a Multi-Framework React app per the sf-multiframework skill. Do not use raw fetch or axios against Salesforce REST.
-- If examples in the external sf-multiframework skill conflict with the installed @salesforce/sdk-data TypeScript definitions, follow the installed package types and report the mismatch.
+- If examples in the sf-multiframework skill conflict with the installed @salesforce/sdk-data TypeScript definitions, follow the installed package types and report the mismatch.
 - If a field referenced in the UI (e.g. On_Time_Percentage__c, Safety_Rating__c on Carrier__c) does not exist yet, add it via deploying-metadata before building the UI.
 - Respect field-level security and the running user's profile.
 

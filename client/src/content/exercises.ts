@@ -139,7 +139,8 @@ The same pattern can target a sandbox or production org when the team has the ri
     producedArtifacts: [
       "Node 22+ and npm installed",
       "Salesforce CLI v2.130.7+ installed and on PATH",
-      "Salesforce skills installed or confirmed in Claude Code",
+      "`forcedotcom/sf-skills` workflow library installed (verified with `npx skills list`)",
+      "`sf-multiframework` Claude Code skill installed at `~/.claude/skills/sf-multiframework/`",
       "Authenticated Developer Edition org",
       "Default target org configured",
     ],
@@ -155,7 +156,8 @@ sf config get target-org --json`,
     expectedOutput: [
       "Node 22+ and npm print versions.",
       "Salesforce CLI v2.130.7+ prints a version.",
-      "Claude Code confirms the Salesforce skill workflows are installed or synced.",
+      "`npx skills list` shows the `forcedotcom/sf-skills` workflows below.",
+      "`~/.claude/skills/sf-multiframework/SKILL.md` exists.",
       "`sf org list --all` shows an authenticated Developer Edition org.",
       "`sf config get target-org` returns the workshop org.",
       "If Claude Code times out during Node/npm or Salesforce CLI install, the same install commands can be run directly in the terminal and re-verified before the live session.",
@@ -171,7 +173,7 @@ sf config get target-org --json`,
 
 1. Node/npm: Run node --version and npm --version. Node must be 22+ (the React-on-Salesforce milestone requires it). If missing or too old, install Node 22 with the appropriate method for this OS (brew install node on macOS, or nvm install 22) and verify.
 2. Salesforce CLI: Run sf --version. The version must be 2.130.7 or newer (this includes the UI Bundle plugin used in the React milestone). If missing, install with npm install -g @salesforce/cli. If present but older, run sf update. Then verify.
-3. Salesforce skills: Check whether the Salesforce skills are installed and available to this Claude Code workspace. I need these skill workflows available before the workshop build starts:
+3. Salesforce CLI workflow library (\`forcedotcom/sf-skills\`): These are reusable Salesforce CLI workflows the build prompts call into via \`npx skills\` — they are NOT Claude Code skills. Check whether the workflow library is installed by running \`npx skills list\`. I need these workflows available before the workshop build starts:
    - generating-custom-object
    - generating-custom-field
    - generating-permission-set
@@ -187,9 +189,12 @@ sf config get target-org --json`,
    - generating-ui-bundle-metadata
    - using-ui-bundle-salesforce-data
    - deploying-ui-bundle
-   If any are missing, install or sync the Salesforce skills from https://github.com/forcedotcom/sf-skills by running npx skills add forcedotcom/sf-skills, then re-check and report the final installed list.
-4. Salesforce Developer account and auth: Run sf org list --all. If no orgs appear, tell me to sign up for a free Salesforce Developer Edition at https://developer.salesforce.com/form/signup/freetrial.jsp, then run sf org login web so I can authenticate in the browser.
-5. Target org: Run sf config get target-org --json. If no target org is set, set my authenticated org as the default with sf config set target-org=<my-username> and create an alias with sf alias set acme-trial=<my-username>.
+   If any are missing, install with \`npx skills add forcedotcom/sf-skills\`, then re-run \`npx skills list\` and report the final installed workflows.
+4. Multi-Framework React skill for Claude Code: Module 7 needs the \`sf-multiframework\` skill installed locally so I auto-activate it when building the React on Salesforce app. Check whether \`~/.claude/skills/sf-multiframework/SKILL.md\` exists. If not, install it by cloning into the user-scope skills directory:
+   \`mkdir -p ~/.claude/skills && git clone https://github.com/dylandersen/sf-multiframework.git ~/.claude/skills/sf-multiframework\`
+   Then verify \`~/.claude/skills/sf-multiframework/SKILL.md\` exists.
+5. Salesforce Developer account and auth: Run sf org list --all. If no orgs appear, tell me to sign up for a free Salesforce Developer Edition at https://developer.salesforce.com/form/signup/freetrial.jsp, then run sf org login web so I can authenticate in the browser.
+6. Target org: Run sf config get target-org --json. If no target org is set, set my authenticated org as the default with sf config set target-org=<my-username> and create an alias with sf alias set acme-trial=<my-username>.
 
 After each fix, re-verify before moving to the next step. When everything passes, confirm this machine is ready to build on Salesforce.`,
         expected:
@@ -217,7 +222,8 @@ sf config get target-org --json`,
       "If Node/npm is missing or older than v22: `brew install node` (macOS) or `nvm install 22 && nvm use 22` (any OS).",
       "If Salesforce CLI is missing: `npm install -g @salesforce/cli` then verify with `sf --version`. If present but older than 2.130.7, run `sf update`.",
       "If Claude Code times out while installing or upgrading Node/npm or Salesforce CLI, switch to the terminal, run the same install command directly, then return here and re-run the validation commands.",
-      "If Salesforce skills are missing: run `npx skills add forcedotcom/sf-skills`, then ask Claude Code to report the installed skill list.",
+      "If `forcedotcom/sf-skills` workflows are missing: run `npx skills add forcedotcom/sf-skills`, then verify with `npx skills list`.",
+      "If `~/.claude/skills/sf-multiframework/` is missing: `mkdir -p ~/.claude/skills && git clone https://github.com/dylandersen/sf-multiframework.git ~/.claude/skills/sf-multiframework`. Restart your Claude Code session afterward so the skill is loaded.",
       "If no Developer Edition org exists: sign up at developer.salesforce.com/form/signup/freetrial.jsp (free, 2 minutes).",
       "If no orgs are authenticated: `sf org login web` (opens browser for login).",
       "If target org is not set: `sf config set target-org=<your-username>` and `sf alias set acme-trial=<your-username>`.",
@@ -358,7 +364,7 @@ From inside the project root, run:
 
 claude mcp add --transport stdio --scope project salesforce-dx -- npx -y @salesforce/mcp@latest --orgs DEFAULT_TARGET_ORG --toolsets orgs,metadata,data,users --tools run_apex_test --allow-non-ga-tools
 
-The \`--scope project\` flag writes the server config to \`.mcp.json\` in this project so it travels with the workshop folder. Use \`--scope user\` instead if you want it available everywhere on this machine.
+Scopes: \`--scope project\` writes \`.mcp.json\` in the project root and is shared via version control (recommended for the workshop so it travels with the folder). \`--scope user\` registers the server in \`~/.claude.json\` so it is available across every project on this machine. \`--scope local\` (the default if you omit \`--scope\`) keeps it private to this project on this machine.
 
 Then verify with \`claude mcp list\` and \`claude mcp get salesforce-dx\`, and prove the connection by listing connected Salesforce orgs, the current target org, and available Salesforce MCP tools.
 
@@ -769,9 +775,9 @@ Stop and report: the trial username, deploy result, record counts, and any block
 
 Before scaffolding, follow both of these as hard requirements:
 
-1. Activate the installed Salesforce UI bundle skills from forcedotcom/sf-skills (preflighted in Module 0): building-ui-bundle-app, generating-ui-bundle-metadata, using-ui-bundle-salesforce-data, building-ui-bundle-frontend, and deploying-ui-bundle. These cover general scaffolding, metadata shape, and deployment. If any are missing, install them with \`npx skills add forcedotcom/sf-skills\` before continuing.
+1. Use the installed Salesforce CLI \`sf-skills\` UI bundle workflows (preflighted in Module 1): building-ui-bundle-app, generating-ui-bundle-metadata, using-ui-bundle-salesforce-data, building-ui-bundle-frontend, and deploying-ui-bundle. These cover general scaffolding, metadata shape, and deployment. Verify with \`npx skills list\`; if any are missing, install with \`npx skills add forcedotcom/sf-skills\`.
 
-2. Fetch and follow the sf-multiframework skill at https://github.com/dylandersen/sf-multiframework/blob/main/SKILL.md along with its references/activation-checklist.md, references/project-structure.md, references/data-sdk.md, and references/ci-deploy.md. This skill is written specifically for the Multi-Framework React beta — its 11 non-negotiable rules and activation checklist take precedence over general UI bundle patterns where they conflict.
+2. Activate the locally installed \`sf-multiframework\` Claude Code skill (installed at \`~/.claude/skills/sf-multiframework/\` in Module 1). Read its \`SKILL.md\` and the four reference files it points to (\`references/activation-checklist.md\`, \`references/project-structure.md\`, \`references/data-sdk.md\`, \`references/ci-deploy.md\`). This skill is written specifically for the Multi-Framework React beta — its non-negotiable rules and activation checklist take precedence over general UI bundle patterns where they conflict. If \`~/.claude/skills/sf-multiframework/SKILL.md\` is missing, stop and run the Module 1 install command before continuing.
 
 Use a clean logistics brand: Salesforce blue (#0176D3) primary, a deeper blue (#1B5C9C) accent, and Inter / system-ui as the type stack. Keep it minimal and modern.
 
@@ -785,7 +791,7 @@ The app must include:
 Data integrity rules:
 - Every value rendered in the UI must come from a real Salesforce record at the time of render. No mock data, no JSON files, no CSV files, no hardcoded shipment names.
 - Use @salesforce/sdk-data with the GraphQL UI API as the data layer — that is the idiomatic path for a Multi-Framework React app per the sf-multiframework skill. Do not use raw fetch or axios against Salesforce REST.
-- If examples in the external sf-multiframework skill conflict with the installed @salesforce/sdk-data TypeScript definitions, follow the installed package types and report the mismatch.
+- If examples in the sf-multiframework skill conflict with the installed @salesforce/sdk-data TypeScript definitions, follow the installed package types and report the mismatch.
 - If a field referenced in the UI (e.g. On_Time_Percentage__c, Safety_Rating__c on Carrier__c) does not exist yet, add it via deploying-metadata before building the UI.
 - Respect field-level security and the running user's profile.
 

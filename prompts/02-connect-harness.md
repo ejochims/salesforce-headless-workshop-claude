@@ -11,7 +11,7 @@ From inside the project root, run:
 
 claude mcp add --transport stdio --scope project salesforce-dx -- npx -y @salesforce/mcp@latest --orgs DEFAULT_TARGET_ORG --toolsets orgs,metadata,data,users --tools run_apex_test --allow-non-ga-tools
 
-The `--scope project` flag writes the server config to `.mcp.json` in this project so it travels with the workshop folder. Use `--scope user` instead if you want it available everywhere on this machine.
+Scopes: `--scope project` writes `.mcp.json` in the project root and is shared via version control (recommended for the workshop so it travels with the folder). `--scope user` registers the server in `~/.claude.json` so it is available across every project on this machine. `--scope local` (the default if you omit `--scope`) keeps it private to this project on this machine.
 
 Verify with:
 

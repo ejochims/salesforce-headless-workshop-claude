@@ -1,0 +1,8 @@
+{
+  "name": "Salesforce Headless Workshop",
+  "description": "Hands-on workshop: building React on Salesforce with Claude Code",
+  "buildpacks": [{ "url": "heroku/nodejs" }],
+  "env": {
+    "NODE_ENV": { "value": "production" }
+  }
+}

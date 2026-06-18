@@ -43,4 +43,4 @@ The session was scoped tight: an hour of live build, no slides, against a real o
 
 ---
 
-[**Try the live demo →**](https://salesforce-headless-workshop-claude.herokuapp.com/) · [Back to README](./README.md)
+[**Try the live demo →**](https://sf-headless-workshop-claude-d4c4dbba8d08.herokuapp.com/) · [Back to README](./README.md)

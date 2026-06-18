@@ -2,7 +2,7 @@
 
 > Build a custom-branded React app on live Salesforce data in under an hour, end-to-end, with Claude Code on the keyboard.
 
-**🔗 [Try the live demo →](https://salesforce-headless-workshop-claude.herokuapp.com/)**
+**🔗 [Try the live demo →](https://sf-headless-workshop-claude-d4c4dbba8d08.herokuapp.com/)**
 
 ![Workshop landing page](docs/screenshots/landing.png)
 

@@ -52,7 +52,7 @@ npm run dev
 
 Then:
 
-1. Open Claude Code ([install instructions](https://docs.claude.com/en/docs/claude-code/overview)). For a smoother live demo, launch with `claude --permission-mode acceptEdits` so file edits and shell commands auto-approve through the multi-step build milestones.
+1. Open Claude Code ([install instructions](https://docs.claude.com/en/docs/claude-code/overview)). For a smoother live demo, launch with `claude --permission-mode auto` (research-preview mode that auto-approves tool calls with background safety checks) or `--permission-mode acceptEdits` (auto-approves file edits + `mkdir`/`touch`/`mv`/`cp`; `sf` CLI commands still prompt on first use). Persist the choice with `"defaultMode": "auto"` under `permissions` in `.claude/settings.json`.
 2. Run **Milestone 0 (Preflight)** from the app's prompt library or [`prompts/00-preflight.md`](./prompts/00-preflight.md).
 3. Work through the milestones in order. Each ends with a validation gate — paste the Claude Code output into the workshop UI's status tracker and you'll get an exportable evidence report at the end.
 

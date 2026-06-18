@@ -9,7 +9,12 @@ npm install -g @anthropic-ai/claude-code
 claude
 ```
 
-> **Facilitator tip — smoother live demos:** the build milestones (4–8) fire many `bash` / `Edit` / `Write` calls. Launch with `claude --permission-mode acceptEdits` (or set `CLAUDE_PERMISSION_MODE=acceptEdits` first) so file edits and shell commands auto-approve during the session. Otherwise expect a permission prompt per command.
+> **Facilitator tip — smoother live demos:** the build milestones (4–8) fire many `Bash` / `Edit` / `Write` calls. Two options for cutting permission-prompt friction:
+>
+> - `claude --permission-mode auto` — auto-approves tool calls with background safety checks (research preview). Best fit for live demos where you want both file edits and `sf` CLI commands to flow without prompting.
+> - `claude --permission-mode acceptEdits` — auto-approves file edits and common filesystem commands (`mkdir`, `touch`, `mv`, `cp`). `sf` CLI invocations still prompt on first use, but Claude Code remembers approvals per command per project, so the prompt count drops fast across milestones.
+>
+> To persist either choice for this project, add `"defaultMode": "auto"` (or `"acceptEdits"`) under `permissions` in `.claude/settings.json`. Read-only commands (`ls`, `cat`, `grep`, `git status`, etc.) never prompt regardless of mode.
 
 Prompt: prepare the Salesforce workstation.
 

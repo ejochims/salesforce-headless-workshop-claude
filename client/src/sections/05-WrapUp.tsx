@@ -104,7 +104,7 @@ export function WrapUp({ statuses }: { statuses: MilestoneStatusMap }) {
             <div style={{ padding: "0 18px 18px" }}>
               <div style={repoListStyle}>
                 {[
-                  "AGENTS.md",
+                  "CLAUDE.md",
                   "sfdx-project.json",
                   "force-app/main/default/",
                   "config/project-scratch-def.json",

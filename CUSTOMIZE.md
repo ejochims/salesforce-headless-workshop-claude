@@ -137,7 +137,7 @@ Use this as a planning map, not a blind global replacement. Review every change 
 - `Procfile` — normally unchanged.
 - `README.md` — overview, workshop flow, customer-specific notes.
 - `CASE_STUDY.md` — replace with your own outcome story.
-- `AGENTS.md` — project-specific build rules.
+- `CLAUDE.md` — project-specific build rules.
 
 ## Validation checklist
 

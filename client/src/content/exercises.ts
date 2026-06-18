@@ -254,12 +254,12 @@ pwd
 ls
 test -f sfdx-project.json
 test -d force-app/main/default
-test -f AGENTS.md`,
+test -f CLAUDE.md`,
     },
     expectedOutput: [
       "The current directory is the new workshop project.",
       "`sfdx-project.json` exists.",
-      "`force-app/main/default/` and `AGENTS.md` exist.",
+      "`force-app/main/default/` and `CLAUDE.md` exist.",
     ],
     nextDependency:
       "All generated metadata, validation scripts, and dashboard artifacts should land in this project.",
@@ -279,14 +279,14 @@ Steps:
 3. Move into the new project folder with cd acme-transport-workshop.
 4. Confirm sfdx-project.json exists.
 5. Confirm force-app/main/default exists.
-6. Create a root AGENTS.md file with concise project instructions:
+6. Create a root CLAUDE.md file with concise project instructions:
    - Use the default Salesforce target org unless a prompt says otherwise.
    - Keep generated metadata under force-app/main/default.
    - Use the installed Salesforce skills for custom objects, fields, permission sets, LWC, data operations, and deployment.
    - Validate each milestone before moving on.
    - If a live step is blocked, report the exact blocker and preserve generated artifacts.
 
-Stop after the project and AGENTS.md exist. Show me the files you created and the validation commands you ran.`,
+Stop after the project and CLAUDE.md exist. Show me the files you created and the validation commands you ran.`,
         expected:
           "Claude Code creates a fresh SFDX project and a small project instruction file.",
         produces: "Participant-owned local build workspace.",
@@ -298,7 +298,7 @@ Stop after the project and AGENTS.md exist. Show me the files you created and th
         body: `cd ~/Desktop/acme-transport-workshop
 test -f sfdx-project.json
 test -d force-app/main/default
-test -f AGENTS.md`,
+test -f CLAUDE.md`,
         expected:
           "The project folder contains Salesforce project metadata and Claude Code project instructions.",
         produces: "A local project Claude Code can continue building in.",
@@ -310,9 +310,9 @@ test -f AGENTS.md`,
       "If project generation fails: `mkdir -p ~/Desktop/acme-transport-workshop && cd ~/Desktop/acme-transport-workshop && sf project generate --name . --template standard`.",
       "If the folder already exists: `rm -rf ~/Desktop/acme-transport-workshop && sf project generate --name acme-transport-workshop --output-dir ~/Desktop`.",
       "If Claude Code is not in the project folder: close and reopen Claude Code from `cd ~/Desktop/acme-transport-workshop`.",
-      "If AGENTS.md was not created: paste the project instructions directly into Claude Code's next prompt.",
+      "If CLAUDE.md was not created: paste the project instructions directly into Claude Code's next prompt.",
     ],
-    takeawayFiles: ["~/Desktop/acme-transport-workshop", "sfdx-project.json", "AGENTS.md"],
+    takeawayFiles: ["~/Desktop/acme-transport-workshop", "sfdx-project.json", "CLAUDE.md"],
   },
   {
     id: "connect-harness",
@@ -988,7 +988,7 @@ git status --short`,
       "For Agentforce, use labs/agentforce-extensions.md after the workshop instead of adding agent build work to the live chain.",
       "If time ran out: the hosted app at the workshop URL remains the prompt reference. Their local project and org persist indefinitely.",
     ],
-    takeawayFiles: ["force-app/main/default/", "AGENTS.md", "labs/"],
+    takeawayFiles: ["force-app/main/default/", "CLAUDE.md", "labs/"],
   },
 ];
 

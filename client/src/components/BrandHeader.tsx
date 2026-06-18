@@ -43,7 +43,8 @@ export function BrandHeader({ onHome, referenceActive, onToggleReference }: Bran
         <BrandLogo
           label="Claude Code"
           src={brandAssets.claudeCode}
-          width={132}
+          width={60}
+          height={46}
         />
         <Divider />
         <BrandLogo
